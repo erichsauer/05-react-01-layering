@@ -4,10 +4,13 @@ import Display from '../components/Display';
 export default class RandomColor extends Component {
   state = {
     color: '',
+    subliminalMessage: '',
   };
 
   componentDidMount() {
+    const messages = ['send', 'erich', 'all', 'your', 'quacks'];
     setInterval(this.changeColor, 1000);
+    this.hypnotizeUser(messages);
   }
 
   changeColor = () => {
@@ -18,8 +21,19 @@ export default class RandomColor extends Component {
     this.setState({ color: `rgb(${threeRandomColorsInRGB})` });
   };
 
+  hypnotizeUser = (messages) => {
+    let i = 0;
+    setInterval(() => {
+      this.setState({ subliminalMessage: messages[i] });
+      i < messages.length - 1 ? i++ : (i = 0);
+      setTimeout(() => {
+        this.setState({ subliminalMessage: '' });
+      }, 100);
+    }, 3000);
+  };
+
   render() {
-    const { color } = this.state;
-    return <Display color={color} />;
+    const { color, subliminalMessage } = this.state;
+    return <Display color={color} subliminalMessage={subliminalMessage} />;
   }
 }
